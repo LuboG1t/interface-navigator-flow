@@ -10,9 +10,9 @@ const Index = () => {
   const [selectedRow, setSelectedRow] = useState<number | null>(null);
 
   const interfaceNames = {
-    inicio: 'Home',
-    contexto: 'Context', 
-    resultados: 'Results'
+    inicio: 'Inicio',
+    contexto: 'Contexto', 
+    resultados: 'Resultados'
   };
 
   const renderInicio = () => (
@@ -23,38 +23,13 @@ const Index = () => {
         <div className="text-center space-y-4 max-w-4xl">
           <h1 className="text-4xl md:text-5xl font-bold leading-tight">
             <span className="text-blue-600">
-              Análisis de características visuales de bajo nivel<br />
-              mediante representaciones vectoriales
+              Análisis de características visuales de bajo nivel mediante representaciones vectoriales
             </span>
             <br />
             <span className="text-black">
               en la similitud compositiva de pinturas impresionistas
             </span>
           </h1>
-        </div>
-
-        {/* Center Image */}
-        <div className="flex items-center justify-center space-x-4">
-          <div className="flex space-x-2">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="w-12 h-12 border-2 border-gray-300 rounded flex items-center justify-center bg-gray-50">
-                <span className="text-xs text-gray-400">📷</span>
-              </div>
-            ))}
-          </div>
-          <div className="text-2xl text-gray-400">→</div>
-          <div className="w-16 h-16 border-2 border-gray-400 rounded-full flex items-center justify-center bg-gray-100 cursor-pointer hover:bg-gray-200 transition-colors" onClick={() => setCurrentInterface('resultados')}>
-            <Beaker className="w-8 h-8 text-gray-600" />
-          </div>
-          <div className="text-2xl text-gray-400">→</div>
-          <div className="w-12 h-12 border border-gray-300 rounded flex items-center justify-center bg-gray-50">
-            <span className="text-xs text-gray-400">🔍</span>
-          </div>
-        </div>
-        
-        <div className="flex space-x-4 justify-center">
-          <span className="text-sm text-gray-600">[ ]</span>
-          <span className="text-sm text-gray-600">[ ]</span>
         </div>
 
         {/* View Results Button */}
@@ -108,8 +83,12 @@ const Index = () => {
         </div>
 
         {/* Process Image */}
-        <div className="w-full h-48 bg-gray-200 rounded flex items-center justify-center">
-          <span className="text-gray-400">📷</span>
+        <div className="w-full flex justify-center">
+          <img 
+            src="/lovable-uploads/50c7ec05-704b-42bd-afcb-71dd700ba41d.png" 
+            alt="Proceso del experimento" 
+            className="max-w-full h-auto"
+          />
         </div>
 
         {/* Technical Details */}
@@ -117,25 +96,25 @@ const Index = () => {
           <h3 className="font-bold text-center">Detalles Técnicos</h3>
           <div className="grid md:grid-cols-2 gap-4 text-sm">
             <div className="flex items-start space-x-2">
-              <span className="text-green-600 mt-1">✓</span>
+              <span className="text-gray-600 mt-1">•</span>
               <div>
                 <strong>Dataset:</strong> Conjunto de pares de imágenes similares de pinturas impresionistas
               </div>
             </div>
             <div className="flex items-start space-x-2">
-              <span className="text-green-600 mt-1">✓</span>
+              <span className="text-gray-600 mt-1">•</span>
               <div>
                 <strong>Representaciones vectoriales:</strong> a través de la red neuronal CLIP (Contrastive Language-Image Pretraining)
               </div>
             </div>
             <div className="flex items-start space-x-2">
-              <span className="text-green-600 mt-1">✓</span>
+              <span className="text-gray-600 mt-1">•</span>
               <div>
                 <strong>Transformaciones:</strong> Mapa de calor de color, tono, saturación, brillo, textura y contraste
               </div>
             </div>
             <div className="flex items-start space-x-2">
-              <span className="text-green-600 mt-1">✓</span>
+              <span className="text-gray-600 mt-1">•</span>
               <div>
                 <strong>Métrica:</strong> Similitud de coseno
               </div>
