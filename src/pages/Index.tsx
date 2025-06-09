@@ -1,13 +1,6 @@
-
 import { useState } from "react";
-import { ChevronDown, Beaker } from "lucide-react";
+import { Beaker } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 const Index = () => {
   const [currentInterface, setCurrentInterface] = useState<'inicio' | 'contexto' | 'resultados'>('inicio');
@@ -17,59 +10,66 @@ const Index = () => {
   const [selectedRow, setSelectedRow] = useState<number | null>(null);
 
   const interfaceNames = {
-    inicio: 'Inicio',
-    contexto: 'Contexto', 
-    resultados: 'Resultados'
+    inicio: 'Home',
+    contexto: 'Context', 
+    resultados: 'Results'
   };
 
   const renderInicio = () => (
-    <div className="max-w-4xl mx-auto p-6 space-y-8">
-      {/* Header */}
-      <div className="text-center space-y-4">
-        <h1 className="text-3xl font-bold text-blue-600 leading-tight">
-          Análisis de características visuales de bajo nivel<br />
-          mediante representaciones vectoriales
-        </h1>
-        <p className="text-gray-700">
-          en la similitud compositiva de pinturas impresionistas
-        </p>
+    <div className="space-y-16">
+      {/* Hero Section - Centered on screen */}
+      <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-8">
+        {/* Two-color title */}
+        <div className="text-center space-y-4 max-w-4xl">
+          <h1 className="text-4xl md:text-5xl font-bold leading-tight">
+            <span className="text-blue-600">
+              Análisis de características visuales de bajo nivel<br />
+              mediante representaciones vectoriales
+            </span>
+            <br />
+            <span className="text-black">
+              en la similitud compositiva de pinturas impresionistas
+            </span>
+          </h1>
+        </div>
+
+        {/* Center Image */}
+        <div className="flex items-center justify-center space-x-4">
+          <div className="flex space-x-2">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="w-12 h-12 border-2 border-gray-300 rounded flex items-center justify-center bg-gray-50">
+                <span className="text-xs text-gray-400">📷</span>
+              </div>
+            ))}
+          </div>
+          <div className="text-2xl text-gray-400">→</div>
+          <div className="w-16 h-16 border-2 border-gray-400 rounded-full flex items-center justify-center bg-gray-100 cursor-pointer hover:bg-gray-200 transition-colors" onClick={() => setCurrentInterface('resultados')}>
+            <Beaker className="w-8 h-8 text-gray-600" />
+          </div>
+          <div className="text-2xl text-gray-400">→</div>
+          <div className="w-12 h-12 border border-gray-300 rounded flex items-center justify-center bg-gray-50">
+            <span className="text-xs text-gray-400">🔍</span>
+          </div>
+        </div>
+        
+        <div className="flex space-x-4 justify-center">
+          <span className="text-sm text-gray-600">[ ]</span>
+          <span className="text-sm text-gray-600">[ ]</span>
+        </div>
+
+        {/* View Results Button */}
+        <div className="text-center">
+          <Button 
+            className="bg-gray-800 hover:bg-gray-700 text-white px-8 py-2 rounded-full"
+            onClick={() => setCurrentInterface('resultados')}
+          >
+            Ver resultados
+          </Button>
+        </div>
       </div>
 
-      {/* Image Selector */}
-      <div className="flex items-center justify-center space-x-4">
-        <div className="flex space-x-2">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="w-12 h-12 border-2 border-gray-300 rounded flex items-center justify-center bg-gray-50">
-              <span className="text-xs text-gray-400">📷</span>
-            </div>
-          ))}
-        </div>
-        <div className="text-2xl text-gray-400">→</div>
-        <div className="w-16 h-16 border-2 border-gray-400 rounded-full flex items-center justify-center bg-gray-100 cursor-pointer hover:bg-gray-200 transition-colors" onClick={() => setCurrentInterface('resultados')}>
-          <Beaker className="w-8 h-8 text-gray-600" />
-        </div>
-        <div className="text-2xl text-gray-400">→</div>
-        <div className="w-12 h-12 border border-gray-300 rounded flex items-center justify-center bg-gray-50">
-          <span className="text-xs text-gray-400">🔍</span>
-        </div>
-      </div>
-      
-      <div className="flex space-x-4 justify-center">
-        <span className="text-sm text-gray-600">[ ]</span>
-        <span className="text-sm text-gray-600">[ ]</span>
-      </div>
-
-      <div className="text-center">
-        <Button 
-          className="bg-gray-800 hover:bg-gray-700 text-white px-8 py-2 rounded-full"
-          onClick={() => setCurrentInterface('resultados')}
-        >
-          Ver resultados
-        </Button>
-      </div>
-
-      {/* About Section */}
-      <div className="space-y-6">
+      {/* About Section - Visible on scroll */}
+      <div className="max-w-4xl mx-auto px-6 space-y-8">
         <h2 className="text-2xl font-bold text-center">Acerca del Experimento</h2>
         <p className="text-center text-gray-700 max-w-3xl mx-auto">
           Con el objetivo de determinar la variación de la similitud compositiva de pinturas 
@@ -106,38 +106,39 @@ const Index = () => {
             </p>
           </div>
         </div>
-      </div>
 
-      {/* Technical Details */}
-      <div className="bg-gray-50 p-6 rounded-lg">
-        <div className="w-full h-48 bg-gray-200 rounded flex items-center justify-center mb-6">
+        {/* Process Image */}
+        <div className="w-full h-48 bg-gray-200 rounded flex items-center justify-center">
           <span className="text-gray-400">📷</span>
         </div>
-        
-        <h3 className="font-bold mb-4">Detalles Técnicos</h3>
-        <div className="grid md:grid-cols-2 gap-4 text-sm">
-          <div className="flex items-start space-x-2">
-            <span className="text-green-600 mt-1">✓</span>
-            <div>
-              <strong>Dataset:</strong> Conjunto de pares de imágenes similares de pinturas impresionistas
+
+        {/* Technical Details */}
+        <div className="space-y-4">
+          <h3 className="font-bold text-center">Detalles Técnicos</h3>
+          <div className="grid md:grid-cols-2 gap-4 text-sm">
+            <div className="flex items-start space-x-2">
+              <span className="text-green-600 mt-1">✓</span>
+              <div>
+                <strong>Dataset:</strong> Conjunto de pares de imágenes similares de pinturas impresionistas
+              </div>
             </div>
-          </div>
-          <div className="flex items-start space-x-2">
-            <span className="text-green-600 mt-1">✓</span>
-            <div>
-              <strong>Representaciones vectoriales:</strong> a través de la red neuronal CLIP (Contrastive Language-Image Pretraining)
+            <div className="flex items-start space-x-2">
+              <span className="text-green-600 mt-1">✓</span>
+              <div>
+                <strong>Representaciones vectoriales:</strong> a través de la red neuronal CLIP (Contrastive Language-Image Pretraining)
+              </div>
             </div>
-          </div>
-          <div className="flex items-start space-x-2">
-            <span className="text-green-600 mt-1">✓</span>
-            <div>
-              <strong>Transformaciones:</strong> Mapa de calor de color, tono, saturación, brillo, textura y contraste
+            <div className="flex items-start space-x-2">
+              <span className="text-green-600 mt-1">✓</span>
+              <div>
+                <strong>Transformaciones:</strong> Mapa de calor de color, tono, saturación, brillo, textura y contraste
+              </div>
             </div>
-          </div>
-          <div className="flex items-start space-x-2">
-            <span className="text-green-600 mt-1">✓</span>
-            <div>
-              <strong>Métrica:</strong> Similitud de coseno
+            <div className="flex items-start space-x-2">
+              <span className="text-green-600 mt-1">✓</span>
+              <div>
+                <strong>Métrica:</strong> Similitud de coseno
+              </div>
             </div>
           </div>
         </div>
@@ -162,7 +163,7 @@ const Index = () => {
     };
 
     return (
-      <div className="max-w-4xl mx-auto p-6 space-y-8">
+      <div className="max-w-4xl mx-auto p-6 space-y-8 pt-24">
         <div className="text-center space-y-4">
           <h1 className="text-3xl font-bold text-blue-600">¿Cómo nace el Experimento?</h1>
           <p className="text-gray-700 max-w-2xl mx-auto">
@@ -263,7 +264,7 @@ const Index = () => {
     ];
 
     return (
-      <div className="max-w-6xl mx-auto p-6 space-y-8">
+      <div className="max-w-6xl mx-auto p-6 space-y-8 pt-24">
         <h1 className="text-3xl font-bold text-blue-600 text-center">Resultados</h1>
         
         <div className="space-y-6">
@@ -386,37 +387,32 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header with Dropdown */}
-      <div className="border-b border-gray-200 p-4">
-        <div className="max-w-6xl mx-auto flex justify-center">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="flex items-center space-x-2">
-                <span>🧪</span>
-                <span>{interfaceNames[currentInterface]}</span>
-                <ChevronDown className="w-4 h-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => setCurrentInterface('inicio')}>
-                <span>🧪</span>
-                <span className="ml-2">Inicio</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setCurrentInterface('contexto')}>
-                <span>🧪</span>
-                <span className="ml-2">Contexto</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setCurrentInterface('resultados')}>
-                <span>🧪</span>
-                <span className="ml-2">Resultados</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+      {/* Sticky Navbar */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm">
+        <div className="max-w-6xl mx-auto px-6 py-4">
+          <div className="flex justify-center space-x-8">
+            {Object.entries(interfaceNames).map(([key, name]) => (
+              <button
+                key={key}
+                onClick={() => setCurrentInterface(key as 'inicio' | 'contexto' | 'resultados')}
+                className={`relative px-4 py-2 font-medium transition-colors duration-300 ${
+                  currentInterface === key 
+                    ? 'text-blue-600' 
+                    : 'text-gray-600 hover:text-gray-800'
+                }`}
+              >
+                {name}
+                {currentInterface === key && (
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600 animate-pulse"></div>
+                )}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      </nav>
 
       {/* Content */}
-      <div className="py-6">
+      <div>
         {currentInterface === 'inicio' && renderInicio()}
         {currentInterface === 'contexto' && renderContexto()}
         {currentInterface === 'resultados' && renderResultados()}
