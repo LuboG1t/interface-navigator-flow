@@ -1,6 +1,6 @@
 
-import { useState } from "react";
-import { Beaker } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Beaker, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Index = () => {
@@ -9,6 +9,7 @@ const Index = () => {
   // Move all useState hooks to the top level
   const [selectedTerm, setSelectedTerm] = useState<'caracteristicas' | 'transformaciones' | 'representaciones'>('caracteristicas');
   const [selectedRow, setSelectedRow] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(0);
 
   const interfaceNames = {
     inicio: 'Inicio',
@@ -16,10 +17,76 @@ const Index = () => {
     resultados: 'Resultados'
   };
 
+  // Auto-scroll functionality for views
+  useEffect(() => {
+    const handleScroll = () => {
+      const views = document.querySelectorAll('.scroll-view');
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      
+      views.forEach((view, index) => {
+        const rect = view.getBoundingClientRect();
+        const viewTop = rect.top + scrollY;
+        const viewBottom = viewTop + rect.height;
+        
+        // Check if view is mostly in viewport
+        if (scrollY + windowHeight / 2 >= viewTop && scrollY + windowHeight / 2 <= viewBottom) {
+          // Smooth scroll to center the view
+          if (Math.abs(rect.top) > 10) {
+            view.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }
+      });
+    };
+
+    const throttledScroll = () => {
+      clearTimeout(window.scrollTimeout);
+      window.scrollTimeout = setTimeout(handleScroll, 100);
+    };
+
+    window.addEventListener('scroll', throttledScroll);
+    return () => window.removeEventListener('scroll', throttledScroll);
+  }, []);
+
+  // Generate matrix data with more rows for pagination
+  const generateMatrixData = () => {
+    const data = [];
+    for (let i = 1; i <= 270; i++) {
+      data.push({
+        pair: i,
+        tmcc: (0.764 + Math.random() * 0.2).toFixed(3),
+        tt: (0.825 + Math.random() * 0.15).toFixed(3),
+        ts: (0.862 + Math.random() * 0.1).toFixed(3),
+        tb: (0.912 + Math.random() * 0.08).toFixed(3),
+        tx: (0.955 + Math.random() * 0.04).toFixed(3),
+        tc: (0.896 + Math.random() * 0.06).toFixed(3)
+      });
+    }
+    return data;
+  };
+
+  const allMatrixData = generateMatrixData();
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(allMatrixData.length / itemsPerPage);
+  const currentMatrixData = allMatrixData.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+
+  const handleRowClick = (rowPair: number) => {
+    setSelectedRow(selectedRow === rowPair ? null : rowPair);
+    // Scroll to comparison visualization
+    if (selectedRow !== rowPair) {
+      setTimeout(() => {
+        const comparisonView = document.querySelector('.comparison-view');
+        if (comparisonView) {
+          comparisonView.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 100);
+    }
+  };
+
   const renderInicio = () => (
-    <div className="space-y-16">
+    <div className="space-y-0">
       {/* Hero Section - Centered on screen */}
-      <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-8">
+      <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-8 scroll-view">
         {/* Two-color title */}
         <div className="text-center space-y-4 max-w-4xl">
           <h1 className="text-4xl md:text-5xl font-bold leading-tight">
@@ -44,7 +111,7 @@ const Index = () => {
       </div>
 
       {/* About Section - Second view */}
-      <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-12">
+      <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-12 scroll-view">
         <div className="max-w-4xl mx-auto space-y-8 text-center">
           <h2 className="text-2xl font-bold">Acerca del Experimento</h2>
           <p className="text-gray-700 max-w-3xl mx-auto">
@@ -86,7 +153,7 @@ const Index = () => {
       </div>
 
       {/* Flow Representation Section - Third view */}
-      <div className="min-h-screen flex flex-col items-center justify-center px-8 space-y-12">
+      <div className="min-h-screen flex flex-col items-center justify-center px-8 space-y-12 scroll-view">
         <div className="max-w-6xl mx-auto space-y-8 text-center">
           <h3 className="text-2xl font-bold">Representación del Flujo</h3>
           
@@ -99,32 +166,31 @@ const Index = () => {
             />
           </div>
 
-          {/* Technical Details */}
+          {/* Technical Details in 3 columns */}
           <div className="space-y-4">
-            <h3 className="font-bold">Detalles Técnicos</h3>
-            <div className="grid md:grid-cols-2 gap-8 text-sm max-w-5xl mx-auto px-8">
-              <div className="flex items-start space-x-2">
-                <span className="text-gray-600 mt-1">•</span>
+            <h3 className="font-bold text-left">Detalles Técnicos</h3>
+            <div className="grid md:grid-cols-3 gap-8 text-sm max-w-5xl mx-auto">
+              {/* First column - Dataset */}
+              <div className="text-left">
                 <div>
                   <strong>Dataset:</strong> Conjunto de pares de imágenes similares de pinturas impresionistas
                 </div>
               </div>
-              <div className="flex items-start space-x-2">
-                <span className="text-gray-600 mt-1">•</span>
-                <div>
-                  <strong>Representaciones vectoriales:</strong> a través de la red neuronal CLIP (Contrastive Language-Image Pretraining)
-                </div>
-              </div>
-              <div className="flex items-start space-x-2">
-                <span className="text-gray-600 mt-1">•</span>
+              
+              {/* Second column - Transformations and Metric */}
+              <div className="text-left space-y-3">
                 <div>
                   <strong>Transformaciones:</strong> Mapa de calor de color, tono, saturación, brillo, textura y contraste
                 </div>
-              </div>
-              <div className="flex items-start space-x-2">
-                <span className="text-gray-600 mt-1">•</span>
                 <div>
                   <strong>Métrica:</strong> Similitud de coseno
+                </div>
+              </div>
+              
+              {/* Third column - Vector Representations */}
+              <div className="text-left">
+                <div>
+                  <strong>Representaciones vectoriales:</strong> a través de la red neuronal CLIP (Contrastive Language-Image Pretraining)
                 </div>
               </div>
             </div>
@@ -151,13 +217,13 @@ const Index = () => {
     };
 
     return (
-      <div className="space-y-16">
+      <div className="space-y-0">
         {/* First view - Main content */}
-        <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-12">
+        <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-12 scroll-view">
           <div className="max-w-4xl mx-auto text-center space-y-8">
             <div className="space-y-4">
               <h1 className="text-3xl font-bold text-blue-600">¿Cómo nace el Experimento?</h1>
-              <p className="text-gray-700 max-w-2xl mx-auto">
+              <p className="text-gray-700 max-w-2xl mx-auto text-justify">
                 Surgió la pregunta, ¿Cómo la similitud compositiva de pinturas impresionistas varía según las características visuales de bajo nivel mediante representaciones vectoriales?
               </p>
             </div>
@@ -167,7 +233,7 @@ const Index = () => {
                 <span className="text-2xl text-blue-600">⚡</span>
                 <div>
                   <h2 className="text-xl font-bold mb-3">Problemática</h2>
-                  <p className="text-gray-700 leading-relaxed">
+                  <p className="text-gray-700 leading-relaxed text-justify">
                     En el análisis computacional de obras de arte, las características visuales de bajo nivel, como el color y la textura, 
                     son esenciales para preservar la coherencia estilística. Sin embargo, el uso inadecuado de transformaciones visuales 
                     para representar estas características puede distorsionar los elementos compositivos de las pinturas, especialmente 
@@ -183,7 +249,7 @@ const Index = () => {
                 <span className="text-2xl text-blue-600">⚡</span>
                 <div>
                   <h2 className="text-xl font-bold mb-3">Importancia</h2>
-                  <p className="text-gray-700 leading-relaxed">
+                  <p className="text-gray-700 leading-relaxed text-justify">
                     Esta experimentación es relevante porque enfrenta una limitación crítica en el análisis digital del arte: la elección 
                     incorrecta de transformaciones visuales puede comprometer la fidelidad de las representaciones. Al identificar 
                     cuáles transformaciones de color y textura preservan mejor la similitud compositiva en pinturas impresionistas, se 
@@ -197,7 +263,7 @@ const Index = () => {
         </div>
 
         {/* Second view - Basic terms */}
-        <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-8">
+        <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-8 scroll-view">
           <div className="max-w-4xl mx-auto text-center space-y-6">
             <h2 className="text-2xl font-bold">Términos Básicos</h2>
             
@@ -235,7 +301,7 @@ const Index = () => {
             </div>
 
             <div className="bg-gray-50 p-6 rounded-lg">
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-gray-700 leading-relaxed text-justify">
                 {termContent[selectedTerm].content}
               </p>
             </div>
@@ -246,34 +312,21 @@ const Index = () => {
   };
 
   const renderResultados = () => {
-    const matrixData = [
-      { pair: 1, tmcc: 0.764, tt: 0.825, ts: 0.862, tb: 0.912, tx: 0.955, tc: 0.896 },
-      { pair: 2, tmcc: 0.764, tt: 0.825, ts: 0.862, tb: 0.912, tx: 0.955, tc: 0.896 },
-      { pair: 3, tmcc: 0.891, tt: 0.873, ts: 0.902, tb: 0.934, tx: 0.967, tc: 0.923 },
-      { pair: 4, tmcc: 0.856, tt: 0.847, ts: 0.888, tb: 0.925, tx: 0.951, tc: 0.912 },
-      { pair: 5, tmcc: 0.923, tt: 0.889, ts: 0.918, tb: 0.941, tx: 0.973, tc: 0.935 },
-      { pair: 6, tmcc: 0.867, tt: 0.852, ts: 0.895, tb: 0.928, tx: 0.964, tc: 0.919 },
-      { pair: 7, tmcc: 0.905, tt: 0.881, ts: 0.911, tb: 0.937, tx: 0.969, tc: 0.928 },
-      { pair: 8, tmcc: 0.874, tt: 0.859, ts: 0.901, tb: 0.931, tx: 0.958, tc: 0.915 },
-      { pair: 9, tmcc: 0.912, tt: 0.885, ts: 0.915, tb: 0.939, tx: 0.971, tc: 0.931 },
-      { pair: 10, tmcc: 0.883, tt: 0.863, ts: 0.898, tb: 0.929, tx: 0.962, tc: 0.921 }
-    ];
-
     return (
-      <div className="space-y-16">
+      <div className="space-y-0">
         {/* First view - Title and Total Chart */}
-        <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-8">
+        <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-8 scroll-view">
           <div className="text-center space-y-6">
             <h1 className="text-3xl font-bold text-blue-600">Resultados</h1>
             <h2 className="text-xl font-bold">Gráfico Total de Transformaciones</h2>
-            <div className="w-full max-w-4xl h-80 bg-gray-200 rounded flex items-center justify-center">
+            <div className="w-full max-w-5xl h-96 bg-gray-200 rounded flex items-center justify-center">
               <span className="text-gray-400">📊</span>
             </div>
           </div>
         </div>
 
         {/* Second view - Charts by transformation */}
-        <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-8">
+        <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-8 scroll-view">
           <div className="text-center space-y-6 max-w-6xl mx-auto">
             <h2 className="text-xl font-bold">Gráficos por Transformación</h2>
             <div className="grid grid-cols-3 gap-6">
@@ -287,7 +340,7 @@ const Index = () => {
               ].map((title, index) => (
                 <div key={index} className="space-y-2">
                   <h3 className="text-sm font-medium text-center whitespace-pre-line">{title}</h3>
-                  <div className="w-full h-40 bg-gray-200 rounded flex items-center justify-center">
+                  <div className="w-full h-48 bg-gray-200 rounded flex items-center justify-center">
                     <span className="text-gray-400 text-xs">📊</span>
                   </div>
                 </div>
@@ -297,16 +350,34 @@ const Index = () => {
         </div>
 
         {/* Third view - Results matrix */}
-        <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-6">
+        <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-6 scroll-view">
           <div className="max-w-6xl mx-auto space-y-4 text-center">
             <div className="flex justify-center items-center space-x-4">
               <h2 className="text-xl font-bold">Matriz de Resultados por Par similar</h2>
-              <Button className="bg-gray-800 hover:bg-gray-700 text-white text-sm px-4 py-2 rounded">
-                Exportar
-              </Button>
             </div>
             
-            <div className="text-sm text-gray-600">10 - 270 ›</div>
+            {/* Pagination controls */}
+            <div className="flex items-center justify-center space-x-4">
+              <button
+                onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
+                disabled={currentPage === 0}
+                className="p-2 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+              
+              <span className="text-sm text-gray-600">
+                {currentPage * itemsPerPage + 1} - {Math.min((currentPage + 1) * itemsPerPage, allMatrixData.length)} › {allMatrixData.length}
+              </span>
+              
+              <button
+                onClick={() => setCurrentPage(Math.min(totalPages - 1, currentPage + 1))}
+                disabled={currentPage === totalPages - 1}
+                className="p-2 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </button>
+            </div>
             
             <div className="overflow-x-auto">
               <table className="w-full border-collapse bg-white rounded-lg shadow mx-auto">
@@ -322,13 +393,13 @@ const Index = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {matrixData.map((row) => (
+                  {currentMatrixData.map((row) => (
                     <tr 
                       key={row.pair}
                       className={`hover:bg-gray-50 cursor-pointer ${
                         selectedRow === row.pair ? 'bg-blue-50' : ''
                       }`}
-                      onClick={() => setSelectedRow(selectedRow === row.pair ? null : row.pair)}
+                      onClick={() => handleRowClick(row.pair)}
                     >
                       <td className="border border-gray-200 px-4 py-2">{row.pair}</td>
                       <td className="border border-gray-200 px-4 py-2">{row.tmcc}</td>
@@ -346,43 +417,61 @@ const Index = () => {
         </div>
 
         {/* Fourth view - Visualization comparison */}
-        <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-8">
+        <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-8 comparison-view scroll-view">
           <div className="max-w-6xl mx-auto space-y-6 text-center">
             <h2 className="text-xl font-bold">Visualización de la Comparación</h2>
             <p className="text-sm text-gray-600">
               Seleccione una fila de la Matriz de Resultados por Par similar para visualizar todo el proceso de experimentación
             </p>
             
-            <div className="grid grid-cols-3 gap-4">
-              {['Mapa de Calor de color', 'Tono', 'Saturación'].map((title, index) => (
-                <div key={index} className="space-y-2">
-                  <h3 className="text-sm font-medium text-center">{title}</h3>
-                  <div className="w-full h-32 bg-gray-200 rounded flex items-center justify-center">
-                    <span className="text-gray-400 text-xs">📷</span>
-                  </div>
+            {/* Two main images */}
+            <div className="grid grid-cols-2 gap-8 mb-8">
+              <div className="space-y-2">
+                <h3 className="text-sm font-medium text-center">Imagen Original A</h3>
+                <div className="w-full h-64 bg-gray-200 rounded flex items-center justify-center">
+                  <span className="text-gray-400 text-xs">🖼️</span>
                 </div>
-              ))}
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-sm font-medium text-center">Imagen Original B</h3>
+                <div className="w-full h-64 bg-gray-200 rounded flex items-center justify-center">
+                  <span className="text-gray-400 text-xs">🖼️</span>
+                </div>
+              </div>
             </div>
             
-            <div className="grid grid-cols-3 gap-4">
-              {['Brillo', 'Textura', 'Contraste'].map((title, index) => (
-                <div key={index} className="space-y-2">
-                  <h3 className="text-sm font-medium text-center">{title}</h3>
-                  <div className="w-full h-32 bg-gray-200 rounded flex items-center justify-center">
-                    <span className="text-gray-400 text-xs">📷</span>
-                  </div>
+            {/* Three columns with transformation percentages */}
+            <div className="grid grid-cols-3 gap-8">
+              <div className="space-y-4">
+                <div className="text-center">
+                  <h4 className="font-bold text-lg">Mapa de Calor de Color</h4>
+                  <div className="text-2xl font-bold text-blue-600">76.4%</div>
                 </div>
-              ))}
-            </div>
-            
-            <div className="flex justify-center">
-              <div className="border-2 border-blue-500 rounded p-4 bg-blue-50">
-                <div className="text-center space-y-2">
-                  <div className="text-sm text-blue-600">Similitud</div>
-                  <div className="w-16 h-16 bg-gray-200 rounded flex items-center justify-center mx-auto">
-                    <span className="text-gray-400 text-xs">📊</span>
-                  </div>
-                  <div className="text-xs text-blue-600">Vector</div>
+                <div className="text-center">
+                  <h4 className="font-bold text-lg">Tono</h4>
+                  <div className="text-2xl font-bold text-blue-600">82.5%</div>
+                </div>
+              </div>
+              
+              <div className="space-y-4">
+                <div className="text-center">
+                  <h4 className="font-bold text-lg">Saturación</h4>
+                  <div className="text-2xl font-bold text-blue-600">86.2%</div>
+                </div>
+                <div className="text-center">
+                  <h4 className="font-bold text-lg">Brillo</h4>
+                  <div className="text-2xl font-bold text-blue-600">91.2%</div>
+                </div>
+              </div>
+              
+              <div className="space-y-4">
+                <div className="text-center">
+                  <h4 className="font-bold text-lg">Textura</h4>
+                  <div className="text-2xl font-bold text-blue-600">95.5%</div>
+                </div>
+                <div className="text-center">
+                  <h4 className="font-bold text-lg">Contraste</h4>
+                  <div className="text-2xl font-bold text-blue-600">89.6%</div>
                 </div>
               </div>
             </div>
@@ -419,7 +508,7 @@ const Index = () => {
       </nav>
 
       {/* Content */}
-      <div>
+      <div className="pt-20">
         {currentInterface === 'inicio' && renderInicio()}
         {currentInterface === 'contexto' && renderContexto()}
         {currentInterface === 'resultados' && renderResultados()}
