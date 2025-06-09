@@ -11,6 +11,10 @@ import {
 
 const Index = () => {
   const [currentInterface, setCurrentInterface] = useState<'inicio' | 'contexto' | 'resultados'>('inicio');
+  
+  // Move all useState hooks to the top level
+  const [selectedTerm, setSelectedTerm] = useState<'caracteristicas' | 'transformaciones' | 'representaciones'>('caracteristicas');
+  const [selectedRow, setSelectedRow] = useState<number | null>(null);
 
   const interfaceNames = {
     inicio: 'Inicio',
@@ -142,8 +146,6 @@ const Index = () => {
   );
 
   const renderContexto = () => {
-    const [selectedTerm, setSelectedTerm] = useState<'caracteristicas' | 'transformaciones' | 'representaciones'>('caracteristicas');
-
     const termContent = {
       caracteristicas: {
         title: "Características de bajo nivel",
@@ -247,8 +249,6 @@ const Index = () => {
   };
 
   const renderResultados = () => {
-    const [selectedRow, setSelectedRow] = useState<number | null>(null);
-
     const matrixData = [
       { pair: 1, tmcc: 0.764, tt: 0.825, ts: 0.862, tb: 0.912, tx: 0.955, tc: 0.896 },
       { pair: 2, tmcc: 0.764, tt: 0.825, ts: 0.862, tb: 0.912, tx: 0.955, tc: 0.896 },
