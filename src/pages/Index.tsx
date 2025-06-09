@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 const Index = () => {
   const [currentInterface, setCurrentInterface] = useState<'inicio' | 'contexto' | 'resultados'>('inicio');
-  
+
   // Move all useState hooks to the top level
   const [selectedTerm, setSelectedTerm] = useState<'caracteristicas' | 'transformaciones' | 'representaciones'>('caracteristicas');
   const [selectedRow, setSelectedRow] = useState<number | null>(null);
@@ -13,7 +13,7 @@ const Index = () => {
 
   const interfaceNames = {
     inicio: 'Inicio',
-    contexto: 'Contexto', 
+    contexto: 'Contexto',
     resultados: 'Resultados'
   };
 
@@ -23,12 +23,12 @@ const Index = () => {
       const views = document.querySelectorAll('.scroll-view');
       const scrollY = window.scrollY;
       const windowHeight = window.innerHeight;
-      
+
       views.forEach((view, index) => {
         const rect = view.getBoundingClientRect();
         const viewTop = rect.top + scrollY;
         const viewBottom = viewTop + rect.height;
-        
+
         // Check if view is mostly in viewport
         if (scrollY + windowHeight / 2 >= viewTop && scrollY + windowHeight / 2 <= viewBottom) {
           // Smooth scroll to center the view
@@ -83,131 +83,14 @@ const Index = () => {
     }
   };
 
-  const renderInicio = () => (
-    <div className="space-y-0">
-      {/* Hero Section - Centered on screen */}
-      <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-8 scroll-view">
-        {/* Two-color title */}
-        <div className="text-center space-y-4 max-w-4xl">
-          <h1 className="text-4xl md:text-5xl font-bold leading-tight">
-            <span className="text-blue-600">
-              Análisis de características visuales de bajo nivel mediante representaciones vectoriales 
-            </span>
-            <span className="text-black">
-              en la similitud compositiva de pinturas impresionistas
-            </span>
-          </h1>
-        </div>
-
-        {/* View Results Button */}
-        <div className="text-center">
-          <Button 
-            className="bg-gray-800 hover:bg-gray-700 text-white px-8 py-2 rounded-full"
-            onClick={() => setCurrentInterface('resultados')}
-          >
-            Ver resultados
-          </Button>
-        </div>
-      </div>
-
-      {/* About Section - Second view */}
-      <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-12 scroll-view">
-        <div className="max-w-4xl mx-auto space-y-8 text-center">
-          <h2 className="text-2xl font-bold">Acerca del Experimento</h2>
-          <p className="text-gray-700 max-w-3xl mx-auto">
-            Con el objetivo de determinar la variación de la similitud compositiva de pinturas 
-            impresionistas según las características visuales de bajo nivel mediante 
-            representaciones vectoriales, las fases que se siguieron fueron:
-          </p>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center space-y-3">
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
-                <span className="text-2xl font-bold text-blue-600">1</span>
-              </div>
-              <h3 className="font-bold">Aplicar transformaciones visuales</h3>
-              <p className="text-sm text-gray-600">
-                para resaltar las características visuales de bajo nivel individualmente
-              </p>
-            </div>
-            <div className="text-center space-y-3">
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
-                <span className="text-2xl font-bold text-blue-600">2</span>
-              </div>
-              <h3 className="font-bold">Extraer representaciones vectoriales</h3>
-              <p className="text-sm text-gray-600">
-                por cada transformación visual aplicada
-              </p>
-            </div>
-            <div className="text-center space-y-3">
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
-                <span className="text-2xl font-bold text-blue-600">3</span>
-              </div>
-              <h3 className="font-bold">Calcular la similitud compositiva</h3>
-              <p className="text-sm text-gray-600">
-                a partir de las representaciones vectoriales de cada transformación aplicada
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Flow Representation Section - Third view */}
-      <div className="min-h-screen flex flex-col items-center justify-center px-8 space-y-12 scroll-view">
-        <div className="max-w-6xl mx-auto space-y-8 text-center">
-          <h3 className="text-2xl font-bold">Representación del Flujo</h3>
-          
-          {/* Process Image */}
-          <div className="w-full flex justify-center">
-            <img 
-              src="/lovable-uploads/50c7ec05-704b-42bd-afcb-71dd700ba41d.png" 
-              alt="Proceso del experimento" 
-              className="max-w-full h-auto"
-            />
-          </div>
-
-          {/* Technical Details in 3 columns */}
-          <div className="space-y-4">
-            <h3 className="font-bold text-left">Detalles Técnicos</h3>
-            <div className="grid md:grid-cols-3 gap-8 text-sm max-w-5xl mx-auto">
-              {/* First column - Dataset */}
-              <div className="text-left">
-                <div>
-                  <strong>Dataset:</strong> Conjunto de pares de imágenes similares de pinturas impresionistas
-                </div>
-              </div>
-              
-              {/* Second column - Transformations and Metric */}
-              <div className="text-left space-y-3">
-                <div>
-                  <strong>Transformaciones:</strong> Mapa de calor de color, tono, saturación, brillo, textura y contraste
-                </div>
-                <div>
-                  <strong>Métrica:</strong> Similitud de coseno
-                </div>
-              </div>
-              
-              {/* Third column - Vector Representations */}
-              <div className="text-left">
-                <div>
-                  <strong>Representaciones vectoriales:</strong> a través de la red neuronal CLIP (Contrastive Language-Image Pretraining)
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
-  const renderContexto = () => {
+  const renderInicio = () => {
     const termContent = {
       caracteristicas: {
         title: "Características de bajo nivel",
         content: "Las características visuales de bajo nivel son atributos primarios de una imagen que no requieren interpretación cognitiva para ser detectados. Incluyen propiedades como color, textura, brillo, bordes y contraste. Estas características se extraen directamente a partir de los valores de píxeles mediante filtros o transformaciones simples. Son fundamentales en visión por computadora porque permiten describir visualmente una imagen antes de aplicar análisis más complejos o modelos de aprendizaje profundo."
       },
       transformaciones: {
-        title: "Transformaciones visuales", 
+        title: "Transformaciones visuales",
         content: "Las transformaciones visuales son operaciones aplicadas a una imagen para modificar aspectos específicos de su apariencia, como el color, la textura o la forma. Su propósito puede ser estético, funcional o experimental, y se utilizan comúnmente en aprendizaje automático para aumentar datos o probar la robustez de modelos. Sin embargo, una mala elección de transformaciones puede distorsionar características visuales esenciales, afectando negativamente el análisis, especialmente en contextos artísticos o estilísticos."
       },
       representaciones: {
@@ -218,6 +101,29 @@ const Index = () => {
 
     return (
       <div className="space-y-0">
+        {/* Hero Section - Centered on screen */}
+        <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-8 scroll-view">
+          {/* Two-color title */}
+          <div className="text-center space-y-4 max-w-4xl">
+            <h1 className="text-4xl md:text-5xl font-bold leading-tight">
+              <span className="text-blue-600">
+                Análisis de características visuales de bajo nivel mediante representaciones vectoriales
+              </span>
+              <span className="text-black"> en la similitud compositiva de pinturas impresionistas</span>
+            </h1>
+          </div>
+
+          {/* View Results Button */}
+          <div className="text-center">
+            <Button
+              className="bg-gray-800 hover:bg-gray-700 font-bold text-white px-8 py-2 rounded-full"
+              onClick={() => setCurrentInterface('resultados')}
+            >
+              Ver resultados
+            </Button>
+          </div>
+        </div>
+
         {/* First view - Main content */}
         <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-12 scroll-view">
           <div className="max-w-4xl mx-auto text-center space-y-8">
@@ -234,12 +140,12 @@ const Index = () => {
                 <div>
                   <h2 className="text-xl font-bold mb-3">Problemática</h2>
                   <p className="text-gray-700 leading-relaxed text-justify">
-                    En el análisis computacional de obras de arte, las características visuales de bajo nivel, como el color y la textura, 
-                    son esenciales para preservar la coherencia estilística. Sin embargo, el uso inadecuado de transformaciones visuales 
-                    para representar estas características puede distorsionar los elementos compositivos de las pinturas, especialmente 
-                    en estilos sensibles como el impresionismo. A esto se suma la limitación de los modelos actuales, que priorizan 
-                    patrones estructurales pero descuidan detalles visuales finos. Por ello, se requiere un enfoque que permita evaluar 
-                    cómo cada transformación afecta la representación de estas características, utilizando representaciones vectoriales 
+                    En el análisis computacional de obras de arte, las características visuales de bajo nivel, como el color y la textura,
+                    son esenciales para preservar la coherencia estilística. Sin embargo, el uso inadecuado de transformaciones visuales
+                    para representar estas características puede distorsionar los elementos compositivos de las pinturas, especialmente
+                    en estilos sensibles como el impresionismo. A esto se suma la limitación de los modelos actuales, que priorizan
+                    patrones estructurales pero descuidan detalles visuales finos. Por ello, se requiere un enfoque que permita evaluar
+                    cómo cada transformación afecta la representación de estas características, utilizando representaciones vectoriales
                     que capten mejor la variación en la similitud compositiva.
                   </p>
                 </div>
@@ -250,10 +156,10 @@ const Index = () => {
                 <div>
                   <h2 className="text-xl font-bold mb-3">Importancia</h2>
                   <p className="text-gray-700 leading-relaxed text-justify">
-                    Esta experimentación es relevante porque enfrenta una limitación crítica en el análisis digital del arte: la elección 
-                    incorrecta de transformaciones visuales puede comprometer la fidelidad de las representaciones. Al identificar 
-                    cuáles transformaciones de color y textura preservan mejor la similitud compositiva en pinturas impresionistas, se 
-                    contribuye a una representación más precisa de las obras, facilitando el desarrollo de herramientas digitales más 
+                    Esta experimentación es relevante porque enfrenta una limitación crítica en el análisis digital del arte: la elección
+                    incorrecta de transformaciones visuales puede comprometer la fidelidad de las representaciones. Al identificar
+                    cuáles transformaciones de color y textura preservan mejor la similitud compositiva en pinturas impresionistas, se
+                    contribuye a una representación más precisa de las obras, facilitando el desarrollo de herramientas digitales más
                     confiables para su análisis y conservación.
                   </p>
                 </div>
@@ -266,34 +172,31 @@ const Index = () => {
         <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-8 scroll-view">
           <div className="max-w-4xl mx-auto text-center space-y-6">
             <h2 className="text-2xl font-bold">Términos Básicos</h2>
-            
+
             <div className="flex justify-center space-x-8">
               <button
-                className={`pb-2 border-b-2 transition-colors ${
-                  selectedTerm === 'caracteristicas' 
-                    ? 'text-blue-600 border-blue-600 font-medium' 
-                    : 'text-gray-600 border-transparent hover:text-gray-800'
-                }`}
+                className={`pb-2 border-b-2 transition-colors ${selectedTerm === 'caracteristicas'
+                  ? 'text-blue-600 border-blue-600 font-medium'
+                  : 'text-gray-600 border-transparent hover:text-gray-800'
+                  }`}
                 onClick={() => setSelectedTerm('caracteristicas')}
               >
                 Características de bajo nivel
               </button>
               <button
-                className={`pb-2 border-b-2 transition-colors ${
-                  selectedTerm === 'transformaciones' 
-                    ? 'text-blue-600 border-blue-600 font-medium' 
-                    : 'text-gray-600 border-transparent hover:text-gray-800'
-                }`}
+                className={`pb-2 border-b-2 transition-colors ${selectedTerm === 'transformaciones'
+                  ? 'text-blue-600 border-blue-600 font-medium'
+                  : 'text-gray-600 border-transparent hover:text-gray-800'
+                  }`}
                 onClick={() => setSelectedTerm('transformaciones')}
               >
                 Transformaciones visuales
               </button>
               <button
-                className={`pb-2 border-b-2 transition-colors ${
-                  selectedTerm === 'representaciones' 
-                    ? 'text-blue-600 border-blue-600 font-medium' 
-                    : 'text-gray-600 border-transparent hover:text-gray-800'
-                }`}
+                className={`pb-2 border-b-2 transition-colors ${selectedTerm === 'representaciones'
+                  ? 'text-blue-600 border-blue-600 font-medium'
+                  : 'text-gray-600 border-transparent hover:text-gray-800'
+                  }`}
                 onClick={() => setSelectedTerm('representaciones')}
               >
                 Representaciones vectoriales
@@ -304,6 +207,102 @@ const Index = () => {
               <p className="text-gray-700 leading-relaxed text-justify">
                 {termContent[selectedTerm].content}
               </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  };
+
+  const renderContexto = () => {
+
+    return (
+      <div className="space-y-0">
+
+        {/* About Section - Second view */}
+        <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-12 scroll-view">
+          <div className="max-w-4xl mx-auto space-y-8 text-center">
+            <h2 className="text-2xl font-bold">Acerca del Experimento</h2>
+            <p className="text-gray-700 max-w-3xl mx-auto">
+              Con el objetivo de determinar la variación de la similitud compositiva de pinturas
+              impresionistas según las características visuales de bajo nivel mediante
+              representaciones vectoriales, las fases que se siguieron fueron:
+            </p>
+
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="text-center space-y-3">
+                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
+                  <span className="text-2xl font-bold text-blue-600">1</span>
+                </div>
+                <h3 className="font-bold">Aplicar transformaciones visuales</h3>
+                <p className="text-sm text-gray-600">
+                  para resaltar las características visuales de bajo nivel individualmente
+                </p>
+              </div>
+              <div className="text-center space-y-3">
+                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
+                  <span className="text-2xl font-bold text-blue-600">2</span>
+                </div>
+                <h3 className="font-bold">Extraer representaciones vectoriales</h3>
+                <p className="text-sm text-gray-600">
+                  por cada transformación visual aplicada
+                </p>
+              </div>
+              <div className="text-center space-y-3">
+                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
+                  <span className="text-2xl font-bold text-blue-600">3</span>
+                </div>
+                <h3 className="font-bold">Calcular la similitud compositiva</h3>
+                <p className="text-sm text-gray-600">
+                  a partir de las representaciones vectoriales de cada transformación aplicada
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Flow Representation Section - Third view */}
+        <div className="min-h-screen flex flex-col items-center justify-center px-8 space-y-12 scroll-view">
+          <div className="max-w-6xl mx-auto space-y-8 text-center">
+            <h3 className="text-2xl font-bold">Representación del Flujo</h3>
+
+            {/* Process Image */}
+            <div className="w-full flex justify-center">
+              <img
+                src="/lovable-uploads/50c7ec05-704b-42bd-afcb-71dd700ba41d.png"
+                alt="Proceso del experimento"
+                className="max-w-full h-auto"
+              />
+            </div>
+
+            {/* Technical Details in 3 columns */}
+            <div className="space-y-4">
+              <h3 className="font-bold text-left">Detalles Técnicos</h3>
+              <div className="grid md:grid-cols-3 gap-8 text-sm max-w-5xl mx-auto">
+                {/* First column - Dataset */}
+                <div className="text-left">
+                  <div>
+                    <strong>Dataset:</strong> Conjunto de pares de imágenes similares de pinturas impresionistas
+                  </div>
+                </div>
+
+                {/* Second column - Transformations and Metric */}
+                <div className="text-left space-y-3">
+                  <div>
+                    <strong>Transformaciones:</strong> Mapa de calor de color, tono, saturación, brillo, textura y contraste
+                  </div>
+                  <div>
+                    <strong>Métrica:</strong> Similitud de coseno
+                  </div>
+                </div>
+
+                {/* Third column - Vector Representations */}
+                <div className="text-left">
+                  <div>
+                    <strong>Representaciones vectoriales:</strong> a través de la red neuronal CLIP (Contrastive Language-Image Pretraining)
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -355,7 +354,7 @@ const Index = () => {
             <div className="flex justify-center items-center space-x-4">
               <h2 className="text-xl font-bold">Matriz de Resultados por Par similar</h2>
             </div>
-            
+
             {/* Pagination controls */}
             <div className="flex items-center justify-center space-x-4">
               <button
@@ -365,11 +364,11 @@ const Index = () => {
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
-              
+
               <span className="text-sm text-gray-600">
                 {currentPage * itemsPerPage + 1} - {Math.min((currentPage + 1) * itemsPerPage, allMatrixData.length)} › {allMatrixData.length}
               </span>
-              
+
               <button
                 onClick={() => setCurrentPage(Math.min(totalPages - 1, currentPage + 1))}
                 disabled={currentPage === totalPages - 1}
@@ -378,7 +377,7 @@ const Index = () => {
                 <ChevronRight className="h-4 w-4" />
               </button>
             </div>
-            
+
             <div className="overflow-x-auto">
               <table className="w-full border-collapse bg-white rounded-lg shadow mx-auto">
                 <thead>
@@ -394,11 +393,10 @@ const Index = () => {
                 </thead>
                 <tbody>
                   {currentMatrixData.map((row) => (
-                    <tr 
+                    <tr
                       key={row.pair}
-                      className={`hover:bg-gray-50 cursor-pointer ${
-                        selectedRow === row.pair ? 'bg-blue-50' : ''
-                      }`}
+                      className={`hover:bg-gray-50 cursor-pointer ${selectedRow === row.pair ? 'bg-blue-50' : ''
+                        }`}
                       onClick={() => handleRowClick(row.pair)}
                     >
                       <td className="border border-gray-200 px-4 py-2">{row.pair}</td>
@@ -423,7 +421,7 @@ const Index = () => {
             <p className="text-sm text-gray-600">
               Seleccione una fila de la Matriz de Resultados por Par similar para visualizar todo el proceso de experimentación
             </p>
-            
+
             {/* Two main images */}
             <div className="grid grid-cols-2 gap-8 mb-8">
               <div className="space-y-2">
@@ -439,7 +437,7 @@ const Index = () => {
                 </div>
               </div>
             </div>
-            
+
             {/* Three columns with transformation percentages */}
             <div className="grid grid-cols-3 gap-8">
               <div className="space-y-4">
@@ -452,7 +450,7 @@ const Index = () => {
                   <div className="text-2xl font-bold text-blue-600">82.5%</div>
                 </div>
               </div>
-              
+
               <div className="space-y-4">
                 <div className="text-center">
                   <h4 className="font-bold text-lg">Saturación</h4>
@@ -463,7 +461,7 @@ const Index = () => {
                   <div className="text-2xl font-bold text-blue-600">91.2%</div>
                 </div>
               </div>
-              
+
               <div className="space-y-4">
                 <div className="text-center">
                   <h4 className="font-bold text-lg">Textura</h4>
@@ -491,11 +489,10 @@ const Index = () => {
               <button
                 key={key}
                 onClick={() => setCurrentInterface(key as 'inicio' | 'contexto' | 'resultados')}
-                className={`relative px-4 py-2 font-medium transition-colors duration-300 ${
-                  currentInterface === key 
-                    ? 'text-blue-600' 
-                    : 'text-gray-600 hover:text-gray-800'
-                }`}
+                className={`relative px-4 py-2 font-medium transition-colors duration-300 ${currentInterface === key
+                  ? 'text-blue-600'
+                  : 'text-gray-600 hover:text-gray-800'
+                  }`}
               >
                 {name}
                 {currentInterface === key && (
