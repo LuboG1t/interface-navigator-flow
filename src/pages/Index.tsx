@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Beaker } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -23,9 +24,8 @@ const Index = () => {
         <div className="text-center space-y-4 max-w-4xl">
           <h1 className="text-4xl md:text-5xl font-bold leading-tight">
             <span className="text-blue-600">
-              Análisis de características visuales de bajo nivel mediante representaciones vectoriales
+              Análisis de características visuales de bajo nivel mediante representaciones vectoriales 
             </span>
-            <br />
             <span className="text-black">
               en la similitud compositiva de pinturas impresionistas
             </span>
@@ -43,80 +43,89 @@ const Index = () => {
         </div>
       </div>
 
-      {/* About Section - Visible on scroll */}
-      <div className="max-w-4xl mx-auto px-6 space-y-8">
-        <h2 className="text-2xl font-bold text-center">Acerca del Experimento</h2>
-        <p className="text-center text-gray-700 max-w-3xl mx-auto">
-          Con el objetivo de determinar la variación de la similitud compositiva de pinturas 
-          impresionistas según las características visuales de bajo nivel mediante 
-          representaciones vectoriales, las fases que se siguieron fueron:
-        </p>
+      {/* About Section - Second view */}
+      <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-12">
+        <div className="max-w-4xl mx-auto space-y-8 text-center">
+          <h2 className="text-2xl font-bold">Acerca del Experimento</h2>
+          <p className="text-gray-700 max-w-3xl mx-auto">
+            Con el objetivo de determinar la variación de la similitud compositiva de pinturas 
+            impresionistas según las características visuales de bajo nivel mediante 
+            representaciones vectoriales, las fases que se siguieron fueron:
+          </p>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="text-center space-y-3">
-            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
-              <span className="text-2xl font-bold text-blue-600">1</span>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center space-y-3">
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
+                <span className="text-2xl font-bold text-blue-600">1</span>
+              </div>
+              <h3 className="font-bold">Aplicar transformaciones visuales</h3>
+              <p className="text-sm text-gray-600">
+                para resaltar las características visuales de bajo nivel individualmente
+              </p>
             </div>
-            <h3 className="font-bold">Aplicar transformaciones visuales</h3>
-            <p className="text-sm text-gray-600">
-              para resaltar las características visuales de bajo nivel individualmente
-            </p>
-          </div>
-          <div className="text-center space-y-3">
-            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
-              <span className="text-2xl font-bold text-blue-600">2</span>
+            <div className="text-center space-y-3">
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
+                <span className="text-2xl font-bold text-blue-600">2</span>
+              </div>
+              <h3 className="font-bold">Extraer representaciones vectoriales</h3>
+              <p className="text-sm text-gray-600">
+                por cada transformación visual aplicada
+              </p>
             </div>
-            <h3 className="font-bold">Extraer representaciones vectoriales</h3>
-            <p className="text-sm text-gray-600">
-              por cada transformación visual aplicada
-            </p>
-          </div>
-          <div className="text-center space-y-3">
-            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
-              <span className="text-2xl font-bold text-blue-600">3</span>
+            <div className="text-center space-y-3">
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
+                <span className="text-2xl font-bold text-blue-600">3</span>
+              </div>
+              <h3 className="font-bold">Calcular la similitud compositiva</h3>
+              <p className="text-sm text-gray-600">
+                a partir de las representaciones vectoriales de cada transformación aplicada
+              </p>
             </div>
-            <h3 className="font-bold">Calcular la similitud compositiva</h3>
-            <p className="text-sm text-gray-600">
-              a partir de las representaciones vectoriales de cada transformación aplicada
-            </p>
           </div>
         </div>
+      </div>
 
-        {/* Process Image */}
-        <div className="w-full flex justify-center">
-          <img 
-            src="/lovable-uploads/50c7ec05-704b-42bd-afcb-71dd700ba41d.png" 
-            alt="Proceso del experimento" 
-            className="max-w-full h-auto"
-          />
-        </div>
+      {/* Flow Representation Section - Third view */}
+      <div className="min-h-screen flex flex-col items-center justify-center px-8 space-y-12">
+        <div className="max-w-6xl mx-auto space-y-8 text-center">
+          <h3 className="text-2xl font-bold">Representación del Flujo</h3>
+          
+          {/* Process Image */}
+          <div className="w-full flex justify-center">
+            <img 
+              src="/lovable-uploads/50c7ec05-704b-42bd-afcb-71dd700ba41d.png" 
+              alt="Proceso del experimento" 
+              className="max-w-full h-auto"
+            />
+          </div>
 
-        {/* Technical Details */}
-        <div className="space-y-4">
-          <h3 className="font-bold text-center">Detalles Técnicos</h3>
-          <div className="grid md:grid-cols-2 gap-4 text-sm">
-            <div className="flex items-start space-x-2">
-              <span className="text-gray-600 mt-1">•</span>
-              <div>
-                <strong>Dataset:</strong> Conjunto de pares de imágenes similares de pinturas impresionistas
+          {/* Technical Details */}
+          <div className="space-y-4">
+            <h3 className="font-bold">Detalles Técnicos</h3>
+            <div className="grid md:grid-cols-2 gap-8 text-sm max-w-5xl mx-auto px-8">
+              <div className="flex items-start space-x-2">
+                <span className="text-gray-600 mt-1">•</span>
+                <div>
+                  <strong>Dataset:</strong> Conjunto de pares de imágenes similares de pinturas impresionistas
+                </div>
               </div>
-            </div>
-            <div className="flex items-start space-x-2">
-              <span className="text-gray-600 mt-1">•</span>
-              <div>
-                <strong>Representaciones vectoriales:</strong> a través de la red neuronal CLIP (Contrastive Language-Image Pretraining)
+              <div className="flex items-start space-x-2">
+                <span className="text-gray-600 mt-1">•</span>
+                <div>
+                  <strong>Representaciones vectoriales:</strong> a través de la red neuronal CLIP (Contrastive Language-Image Pretraining)
+                </div>
               </div>
-            </div>
-            <div className="flex items-start space-x-2">
-              <span className="text-gray-600 mt-1">•</span>
-              <div>
-                <strong>Transformaciones:</strong> Mapa de calor de color, tono, saturación, brillo, textura y contraste
+              <div className="flex items-start space-x-2">
+                <span className="text-gray-600 mt-1">•</span>
+                <div>
+                  <strong>Transformaciones:</strong> Mapa de calor de color, tono, saturación, brillo, textura y contraste
+                </div>
               </div>
-            </div>
-            <div className="flex items-start space-x-2">
-              <span className="text-gray-600 mt-1">•</span>
-              <div>
-                <strong>Métrica:</strong> Similitud de coseno
+              <div className="flex items-start space-x-2">
+                <span className="text-gray-600 mt-1">•</span>
+                <div>
+                  <strong>Métrica:</strong> Similitud de coseno
+                </div>
               </div>
             </div>
           </div>
@@ -142,86 +151,94 @@ const Index = () => {
     };
 
     return (
-      <div className="max-w-4xl mx-auto p-6 space-y-8 pt-24">
-        <div className="text-center space-y-4">
-          <h1 className="text-3xl font-bold text-blue-600">¿Cómo nace el Experimento?</h1>
-          <p className="text-gray-700 max-w-2xl mx-auto">
-            Surgió la pregunta, ¿Cómo la similitud compositiva de pinturas impresionistas varía según las características visuales de bajo nivel mediante representaciones vectoriales?
-          </p>
-        </div>
-
-        <div className="space-y-6">
-          <div className="flex items-start space-x-3">
-            <span className="text-2xl">⚡</span>
-            <div>
-              <h2 className="text-xl font-bold mb-3">Problemática</h2>
-              <p className="text-gray-700 leading-relaxed">
-                En el análisis computacional de obras de arte, las características visuales de bajo nivel, como el color y la textura, 
-                son esenciales para preservar la coherencia estilística. Sin embargo, el uso inadecuado de transformaciones visuales 
-                para representar estas características puede distorsionar los elementos compositivos de las pinturas, especialmente 
-                en estilos sensibles como el impresionismo. A esto se suma la limitación de los modelos actuales, que priorizan 
-                patrones estructurales pero descuidan detalles visuales finos. Por ello, se requiere un enfoque que permita evaluar 
-                cómo cada transformación afecta la representación de estas características, utilizando representaciones vectoriales 
-                que capten mejor la variación en la similitud compositiva.
+      <div className="space-y-16">
+        {/* First view - Main content */}
+        <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-12">
+          <div className="max-w-4xl mx-auto text-center space-y-8">
+            <div className="space-y-4">
+              <h1 className="text-3xl font-bold text-blue-600">¿Cómo nace el Experimento?</h1>
+              <p className="text-gray-700 max-w-2xl mx-auto">
+                Surgió la pregunta, ¿Cómo la similitud compositiva de pinturas impresionistas varía según las características visuales de bajo nivel mediante representaciones vectoriales?
               </p>
             </div>
-          </div>
 
-          <div className="flex items-start space-x-3">
-            <span className="text-2xl">⚡</span>
-            <div>
-              <h2 className="text-xl font-bold mb-3">Importancia</h2>
-              <p className="text-gray-700 leading-relaxed">
-                Esta experimentación es relevante porque enfrenta una limitación crítica en el análisis digital del arte: la elección 
-                incorrecta de transformaciones visuales puede comprometer la fidelidad de las representaciones. Al identificar 
-                cuáles transformaciones de color y textura preservan mejor la similitud compositiva en pinturas impresionistas, se 
-                contribuye a una representación más precisa de las obras, facilitando el desarrollo de herramientas digitales más 
-                confiables para su análisis y conservación.
-              </p>
+            <div className="space-y-8">
+              <div className="flex items-start space-x-3 text-left">
+                <span className="text-2xl text-blue-600">⚡</span>
+                <div>
+                  <h2 className="text-xl font-bold mb-3">Problemática</h2>
+                  <p className="text-gray-700 leading-relaxed">
+                    En el análisis computacional de obras de arte, las características visuales de bajo nivel, como el color y la textura, 
+                    son esenciales para preservar la coherencia estilística. Sin embargo, el uso inadecuado de transformaciones visuales 
+                    para representar estas características puede distorsionar los elementos compositivos de las pinturas, especialmente 
+                    en estilos sensibles como el impresionismo. A esto se suma la limitación de los modelos actuales, que priorizan 
+                    patrones estructurales pero descuidan detalles visuales finos. Por ello, se requiere un enfoque que permita evaluar 
+                    cómo cada transformación afecta la representación de estas características, utilizando representaciones vectoriales 
+                    que capten mejor la variación en la similitud compositiva.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-3 text-left">
+                <span className="text-2xl text-blue-600">⚡</span>
+                <div>
+                  <h2 className="text-xl font-bold mb-3">Importancia</h2>
+                  <p className="text-gray-700 leading-relaxed">
+                    Esta experimentación es relevante porque enfrenta una limitación crítica en el análisis digital del arte: la elección 
+                    incorrecta de transformaciones visuales puede comprometer la fidelidad de las representaciones. Al identificar 
+                    cuáles transformaciones de color y textura preservan mejor la similitud compositiva en pinturas impresionistas, se 
+                    contribuye a una representación más precisa de las obras, facilitando el desarrollo de herramientas digitales más 
+                    confiables para su análisis y conservación.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-center">Términos Básicos</h2>
-          
-          <div className="flex justify-center space-x-8">
-            <button
-              className={`pb-2 border-b-2 transition-colors ${
-                selectedTerm === 'caracteristicas' 
-                  ? 'text-blue-600 border-blue-600 font-medium' 
-                  : 'text-gray-600 border-transparent hover:text-gray-800'
-              }`}
-              onClick={() => setSelectedTerm('caracteristicas')}
-            >
-              Características de bajo nivel
-            </button>
-            <button
-              className={`pb-2 border-b-2 transition-colors ${
-                selectedTerm === 'transformaciones' 
-                  ? 'text-blue-600 border-blue-600 font-medium' 
-                  : 'text-gray-600 border-transparent hover:text-gray-800'
-              }`}
-              onClick={() => setSelectedTerm('transformaciones')}
-            >
-              Transformaciones visuales
-            </button>
-            <button
-              className={`pb-2 border-b-2 transition-colors ${
-                selectedTerm === 'representaciones' 
-                  ? 'text-blue-600 border-blue-600 font-medium' 
-                  : 'text-gray-600 border-transparent hover:text-gray-800'
-              }`}
-              onClick={() => setSelectedTerm('representaciones')}
-            >
-              Representaciones vectoriales
-            </button>
-          </div>
+        {/* Second view - Basic terms */}
+        <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-8">
+          <div className="max-w-4xl mx-auto text-center space-y-6">
+            <h2 className="text-2xl font-bold">Términos Básicos</h2>
+            
+            <div className="flex justify-center space-x-8">
+              <button
+                className={`pb-2 border-b-2 transition-colors ${
+                  selectedTerm === 'caracteristicas' 
+                    ? 'text-blue-600 border-blue-600 font-medium' 
+                    : 'text-gray-600 border-transparent hover:text-gray-800'
+                }`}
+                onClick={() => setSelectedTerm('caracteristicas')}
+              >
+                Características de bajo nivel
+              </button>
+              <button
+                className={`pb-2 border-b-2 transition-colors ${
+                  selectedTerm === 'transformaciones' 
+                    ? 'text-blue-600 border-blue-600 font-medium' 
+                    : 'text-gray-600 border-transparent hover:text-gray-800'
+                }`}
+                onClick={() => setSelectedTerm('transformaciones')}
+              >
+                Transformaciones visuales
+              </button>
+              <button
+                className={`pb-2 border-b-2 transition-colors ${
+                  selectedTerm === 'representaciones' 
+                    ? 'text-blue-600 border-blue-600 font-medium' 
+                    : 'text-gray-600 border-transparent hover:text-gray-800'
+                }`}
+                onClick={() => setSelectedTerm('representaciones')}
+              >
+                Representaciones vectoriales
+              </button>
+            </div>
 
-          <div className="bg-gray-50 p-6 rounded-lg">
-            <p className="text-gray-700 leading-relaxed">
-              {termContent[selectedTerm].content}
-            </p>
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <p className="text-gray-700 leading-relaxed">
+                {termContent[selectedTerm].content}
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -243,119 +260,130 @@ const Index = () => {
     ];
 
     return (
-      <div className="max-w-6xl mx-auto p-6 space-y-8 pt-24">
-        <h1 className="text-3xl font-bold text-blue-600 text-center">Resultados</h1>
-        
-        <div className="space-y-6">
-          <h2 className="text-xl font-bold text-center">Gráfico Total de Transformaciones</h2>
-          <div className="w-full h-64 bg-gray-200 rounded flex items-center justify-center">
-            <span className="text-gray-400">📊</span>
+      <div className="space-y-16">
+        {/* First view - Title and Total Chart */}
+        <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-8">
+          <div className="text-center space-y-6">
+            <h1 className="text-3xl font-bold text-blue-600">Resultados</h1>
+            <h2 className="text-xl font-bold">Gráfico Total de Transformaciones</h2>
+            <div className="w-full max-w-4xl h-80 bg-gray-200 rounded flex items-center justify-center">
+              <span className="text-gray-400">📊</span>
+            </div>
           </div>
         </div>
 
-        <div className="space-y-6">
-          <h2 className="text-xl font-bold text-center">Gráficos por Transformación</h2>
-          <div className="grid grid-cols-3 gap-4">
-            {[
-              'Transformación por\nMapa de calor de color (TMCC)',
-              'Transformación por Tono (TT)',
-              'Transformación por Saturación (TS)',
-              'Transformación por Brillo (TB)',
-              'Transformación por Textura (TX)',
-              'Transformación por Contraste (TC)'
-            ].map((title, index) => (
-              <div key={index} className="space-y-2">
-                <h3 className="text-sm font-medium text-center whitespace-pre-line">{title}</h3>
-                <div className="w-full h-32 bg-gray-200 rounded flex items-center justify-center">
-                  <span className="text-gray-400 text-xs">📊</span>
+        {/* Second view - Charts by transformation */}
+        <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-8">
+          <div className="text-center space-y-6 max-w-6xl mx-auto">
+            <h2 className="text-xl font-bold">Gráficos por Transformación</h2>
+            <div className="grid grid-cols-3 gap-6">
+              {[
+                'Transformación por\nMapa de calor de color (TMCC)',
+                'Transformación por Tono (TT)',
+                'Transformación por Saturación (TS)',
+                'Transformación por Brillo (TB)',
+                'Transformación por Textura (TX)',
+                'Transformación por Contraste (TC)'
+              ].map((title, index) => (
+                <div key={index} className="space-y-2">
+                  <h3 className="text-sm font-medium text-center whitespace-pre-line">{title}</h3>
+                  <div className="w-full h-40 bg-gray-200 rounded flex items-center justify-center">
+                    <span className="text-gray-400 text-xs">📊</span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
-        <div className="space-y-4">
-          <div className="flex justify-between items-center">
-            <h2 className="text-xl font-bold">Matriz de Resultados por Par similar</h2>
-            <Button className="bg-gray-800 hover:bg-gray-700 text-white text-sm px-4 py-2 rounded">
-              Exportar
-            </Button>
-          </div>
-          
-          <div className="text-sm text-gray-600">10 - 270 ›</div>
-          
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse bg-white rounded-lg shadow">
-              <thead>
-                <tr className="bg-gray-50">
-                  <th className="border border-gray-200 px-4 py-2 text-left">N° Par</th>
-                  <th className="border border-gray-200 px-4 py-2 text-left">TMCC</th>
-                  <th className="border border-gray-200 px-4 py-2 text-left">TT</th>
-                  <th className="border border-gray-200 px-4 py-2 text-left">TS</th>
-                  <th className="border border-gray-200 px-4 py-2 text-left">TB</th>
-                  <th className="border border-gray-200 px-4 py-2 text-left">TX</th>
-                  <th className="border border-gray-200 px-4 py-2 text-left">TC</th>
-                </tr>
-              </thead>
-              <tbody>
-                {matrixData.map((row) => (
-                  <tr 
-                    key={row.pair}
-                    className={`hover:bg-gray-50 cursor-pointer ${
-                      selectedRow === row.pair ? 'bg-blue-50' : ''
-                    }`}
-                    onClick={() => setSelectedRow(selectedRow === row.pair ? null : row.pair)}
-                  >
-                    <td className="border border-gray-200 px-4 py-2">{row.pair}</td>
-                    <td className="border border-gray-200 px-4 py-2">{row.tmcc}</td>
-                    <td className="border border-gray-200 px-4 py-2">{row.tt}</td>
-                    <td className="border border-gray-200 px-4 py-2">{row.ts}</td>
-                    <td className="border border-gray-200 px-4 py-2">{row.tb}</td>
-                    <td className="border border-gray-200 px-4 py-2">{row.tx}</td>
-                    <td className="border border-gray-200 px-4 py-2">{row.tc}</td>
+        {/* Third view - Results matrix */}
+        <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-6">
+          <div className="max-w-6xl mx-auto space-y-4 text-center">
+            <div className="flex justify-center items-center space-x-4">
+              <h2 className="text-xl font-bold">Matriz de Resultados por Par similar</h2>
+              <Button className="bg-gray-800 hover:bg-gray-700 text-white text-sm px-4 py-2 rounded">
+                Exportar
+              </Button>
+            </div>
+            
+            <div className="text-sm text-gray-600">10 - 270 ›</div>
+            
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse bg-white rounded-lg shadow mx-auto">
+                <thead>
+                  <tr className="bg-gray-50">
+                    <th className="border border-gray-200 px-4 py-2 text-left">N° Par</th>
+                    <th className="border border-gray-200 px-4 py-2 text-left">TMCC</th>
+                    <th className="border border-gray-200 px-4 py-2 text-left">TT</th>
+                    <th className="border border-gray-200 px-4 py-2 text-left">TS</th>
+                    <th className="border border-gray-200 px-4 py-2 text-left">TB</th>
+                    <th className="border border-gray-200 px-4 py-2 text-left">TX</th>
+                    <th className="border border-gray-200 px-4 py-2 text-left">TC</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {matrixData.map((row) => (
+                    <tr 
+                      key={row.pair}
+                      className={`hover:bg-gray-50 cursor-pointer ${
+                        selectedRow === row.pair ? 'bg-blue-50' : ''
+                      }`}
+                      onClick={() => setSelectedRow(selectedRow === row.pair ? null : row.pair)}
+                    >
+                      <td className="border border-gray-200 px-4 py-2">{row.pair}</td>
+                      <td className="border border-gray-200 px-4 py-2">{row.tmcc}</td>
+                      <td className="border border-gray-200 px-4 py-2">{row.tt}</td>
+                      <td className="border border-gray-200 px-4 py-2">{row.ts}</td>
+                      <td className="border border-gray-200 px-4 py-2">{row.tb}</td>
+                      <td className="border border-gray-200 px-4 py-2">{row.tx}</td>
+                      <td className="border border-gray-200 px-4 py-2">{row.tc}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 
-        <div className="space-y-4">
-          <h2 className="text-xl font-bold">Visualización de la Comparación</h2>
-          <p className="text-sm text-gray-600">
-            Seleccione una fila de la Matriz de Resultados por Par similar para visualizar todo el proceso de experimentación
-          </p>
-          
-          <div className="grid grid-cols-3 gap-4">
-            {['Mapa de Calor de color', 'Tono', 'Saturación'].map((title, index) => (
-              <div key={index} className="space-y-2">
-                <h3 className="text-sm font-medium text-center">{title}</h3>
-                <div className="w-full h-32 bg-gray-200 rounded flex items-center justify-center">
-                  <span className="text-gray-400 text-xs">📷</span>
+        {/* Fourth view - Visualization comparison */}
+        <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-8">
+          <div className="max-w-6xl mx-auto space-y-6 text-center">
+            <h2 className="text-xl font-bold">Visualización de la Comparación</h2>
+            <p className="text-sm text-gray-600">
+              Seleccione una fila de la Matriz de Resultados por Par similar para visualizar todo el proceso de experimentación
+            </p>
+            
+            <div className="grid grid-cols-3 gap-4">
+              {['Mapa de Calor de color', 'Tono', 'Saturación'].map((title, index) => (
+                <div key={index} className="space-y-2">
+                  <h3 className="text-sm font-medium text-center">{title}</h3>
+                  <div className="w-full h-32 bg-gray-200 rounded flex items-center justify-center">
+                    <span className="text-gray-400 text-xs">📷</span>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-          
-          <div className="grid grid-cols-3 gap-4">
-            {['Brillo', 'Textura', 'Contraste'].map((title, index) => (
-              <div key={index} className="space-y-2">
-                <h3 className="text-sm font-medium text-center">{title}</h3>
-                <div className="w-full h-32 bg-gray-200 rounded flex items-center justify-center">
-                  <span className="text-gray-400 text-xs">📷</span>
+              ))}
+            </div>
+            
+            <div className="grid grid-cols-3 gap-4">
+              {['Brillo', 'Textura', 'Contraste'].map((title, index) => (
+                <div key={index} className="space-y-2">
+                  <h3 className="text-sm font-medium text-center">{title}</h3>
+                  <div className="w-full h-32 bg-gray-200 rounded flex items-center justify-center">
+                    <span className="text-gray-400 text-xs">📷</span>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-          
-          <div className="flex justify-center">
-            <div className="border-2 border-blue-500 rounded p-4 bg-blue-50">
-              <div className="text-center space-y-2">
-                <div className="text-sm text-blue-600">Similitud</div>
-                <div className="w-16 h-16 bg-gray-200 rounded flex items-center justify-center mx-auto">
-                  <span className="text-gray-400 text-xs">📊</span>
+              ))}
+            </div>
+            
+            <div className="flex justify-center">
+              <div className="border-2 border-blue-500 rounded p-4 bg-blue-50">
+                <div className="text-center space-y-2">
+                  <div className="text-sm text-blue-600">Similitud</div>
+                  <div className="w-16 h-16 bg-gray-200 rounded flex items-center justify-center mx-auto">
+                    <span className="text-gray-400 text-xs">📊</span>
+                  </div>
+                  <div className="text-xs text-blue-600">Vector</div>
                 </div>
-                <div className="text-xs text-blue-600">Vector</div>
               </div>
             </div>
           </div>
