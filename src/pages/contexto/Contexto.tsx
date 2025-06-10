@@ -1,10 +1,12 @@
 import { Brain, Lightbulb, Shield } from "lucide-react";
 import { ValueProp } from "./ValueProp";
+import { Navbar } from "../../components/Navbar";
 
 export const Contexto = () => {
 
     return (
         <div className="space-y-0">
+            <Navbar />
 
             {/* About Section - Second view */}
             <div className="min-h-screen flex flex-col items-center justify-center px-6 space-y-12 scroll-view">
