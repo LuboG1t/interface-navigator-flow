@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Award, RefreshCw } from "lucide-react";
 import PaintingData from "@/types/painting";
-import { fetchSimilarityData } from "@/services/similarityService";
+import { fetchSimilarityData } from "@/services/similarity.service";
 import { getHighestSimilarity, formatSimilarity } from "@/utils/similarity";
 import { Image } from "./Image";
 import { SkeletonCard } from "./SkeletonCard";

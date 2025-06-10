@@ -7,8 +7,11 @@ export const Inicio = ({ viewsResultButton, basicTermOne, basicTermTwo, basicTer
   return (
     <div className="space-y-0">
       <Navbar />
+
       <HeroSection onViewResults={viewsResultButton} />
+      
       <ProblemSection />
+      
       <BasicTerms
         selectedTerm={selectedTerm}
         onSelectTermOne={basicTermOne}

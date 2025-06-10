@@ -1,13 +1,16 @@
+import { getAllSimilarities } from "@/services/similarity.service";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const TableResults = () => {
     const [selectedRow, setSelectedRow] = useState<number | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(0);
+    const [transformations, setTransformations] = useState([])
+    const [totalItems, setTotalItems] = useState<number>(0)
 
     const generateMatrixData = () => {
         const data = [];
-        for (let i = 1; i <= 270; i++) {
+        for (let i = 1; i <= totalItems; i++) {
             data.push({
                 pair: i,
                 tmcc: (0.764 + Math.random() * 0.2).toFixed(3),
@@ -21,10 +24,8 @@ export const TableResults = () => {
         return data;
     };
 
-    const allMatrixData = generateMatrixData();
     const itemsPerPage = 10;
-    const totalPages = Math.ceil(allMatrixData.length / itemsPerPage);
-    const currentMatrixData = allMatrixData.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
 
     const handleRowClick = (rowPair: number) => {
         setSelectedRow(selectedRow === rowPair ? null : rowPair);
@@ -38,6 +39,33 @@ export const TableResults = () => {
             }, 100);
         }
     };
+
+    useEffect(() => {
+        const getSimilarities = async () => {
+            try {
+                const { data } = await getAllSimilarities(currentPage + 1, itemsPerPage);
+
+                const transformedData = data.results.map((item, index) => ({
+                    pair: index + 1 + currentPage * itemsPerPage,
+                    tmcc: item.color_heat_map_transformation,
+                    tt: item.tone_transformation,
+                    ts: item.saturation_transformation,
+                    tb: item.brightness_transformation,
+                    tx: item.texture_transformation,
+                    tc: item.contrast_transformation,
+                    comparison_id: item.comparison_id
+                }));
+
+                setTransformations(transformedData);
+                setTotalItems(data.count); // 🆕 si defines totalItems y lo usas en totalPages
+            } catch (err) {
+                console.error("Error al cargar datos:", err);
+            }
+        };
+
+        getSimilarities();
+    }, [currentPage]);
+
 
     return (
 
@@ -57,7 +85,7 @@ export const TableResults = () => {
                     </button>
 
                     <span className="text-sm text-gray-600">
-                        {currentPage * itemsPerPage + 1} - {Math.min((currentPage + 1) * itemsPerPage, allMatrixData.length)} › {allMatrixData.length}
+                        {currentPage * itemsPerPage + 1} - {Math.min((currentPage + 1) * itemsPerPage, totalItems)} › {totalItems}
                     </span>
 
                     <button
@@ -83,7 +111,7 @@ export const TableResults = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {currentMatrixData.map((row) => (
+                            {transformations.map((row) => (
                                 <tr
                                     key={row.pair}
                                     className={`hover:bg-gray-50 cursor-pointer ${selectedRow === row.pair ? 'bg-blue-50' : ''
