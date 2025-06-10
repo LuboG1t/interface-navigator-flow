@@ -40,28 +40,35 @@ export const Contexto = () => {
             </div>
 
             {/* Flow Representation Section - Third view */}
-            <div className="min-h-screen flex flex-col items-center justify-center px-8 space-y-12 scroll-view">
-                <div className="max-w-6xl mx-auto space-y-8 text-center">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-24 scroll-view">
+                <div className="text-center space-y-6 max-w-6xl mx-auto">
                     <h3 className="text-2xl font-bold">Representación del Flujo</h3>
 
                     {/* Process Image */}
-                    <div className="flex w-full max-w-full overflow-hidden justify-center">
+                    <div className="w-full flex justify-center">
+                        <img
+                            src="/workflow_step/3.jpg"
+                            alt="Proceso del experimento"
+                            className="max-w-full h-auto"
+                        />
+                    </div>
+                    {/* <div className="flex overflow-hidden justify-center gap-[3px] h-[900px]">
                         <img
                             src="/workflow_step/3_1.jpg"
                             alt="Imagen 1"
-                            className="h-full w-[300px] object-contain"
+                            className="h-full w-[300px] object-contain blur-sm hover:opacity-100 hover:blur-0 transition-all duration-500"
                         />
                         <img
                             src="/workflow_step/3_2.jpg"
                             alt="Imagen 2"
-                            className="h-full w-[270px] object-contain"
+                            className="h-full w-[270px] object-contain blur-sm hover:opacity-100 hover:blur-0 transition-all duration-500"
                         />
                         <img
                             src="/workflow_step/3_3.jpg"
                             alt="Imagen 3"
-                            className="h-full w-[600px] object-contain"
+                            className="h-full w-[600px] object-contain blur-sm hover:opacity-100 hover:blur-0 transition-all duration-500"
                         />
-                    </div>
+                    </div> */}
 
                     {/* Technical Details in 3 columns */}
                     <div className="space-y-1 mt-2">
