@@ -1,3 +1,4 @@
+import { Card } from "@/components/ui/card";
 import { TransformChart } from "./TransformChart";
 
 const transformations = [
@@ -11,8 +12,8 @@ const transformations = [
 
 export const TransformResults = () => {
     return (
-        <div className="min-h-screen flex flex-col justify-center px-6 py-8 scroll-view items-center">
-        <div className="text-center max-w-7xl mx-auto space-y-6">
+        <div className="min-h-screen px-4 sm:px-6 lg:px-8 pt-12 pb-24 scroll-view">
+            <div className="text-center space-y-6 max-w-6xl mx-auto">
                 <div className="flex flex-col items-center text-center gap-2 mb-12">
                     <p className="text-foreground max-w-3xl text-xl font-bold md:text-2xl mt-2">Gráficos por Transformación</p>
                 </div>
