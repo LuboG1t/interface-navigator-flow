@@ -8,22 +8,6 @@ export const TableResults = () => {
     const [transformations, setTransformations] = useState([])
     const [totalItems, setTotalItems] = useState<number>(0)
 
-    const generateMatrixData = () => {
-        const data = [];
-        for (let i = 1; i <= totalItems; i++) {
-            data.push({
-                pair: i,
-                tmcc: (0.764 + Math.random() * 0.2).toFixed(3),
-                tt: (0.825 + Math.random() * 0.15).toFixed(3),
-                ts: (0.862 + Math.random() * 0.1).toFixed(3),
-                tb: (0.912 + Math.random() * 0.08).toFixed(3),
-                tx: (0.955 + Math.random() * 0.04).toFixed(3),
-                tc: (0.896 + Math.random() * 0.06).toFixed(3)
-            });
-        }
-        return data;
-    };
-
     const itemsPerPage = 10;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
 
