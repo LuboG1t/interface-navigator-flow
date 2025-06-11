@@ -10,6 +10,20 @@ export const getAllSimilarities = async (page = 1, limit = 10) => {
     return response;
 };
 
+export const getAllSimilaritiesRaw = async () => {
+    const response = await axios.get(`${API_BASE}/get-all-similarities/`, {
+        params: { all: true }
+    });
+    return response;
+};
+
+export const getSimilaritiesByTransform = async (transform: string) => {
+    const response = await axios.get(`${API_BASE}/get-similarity-by-transform/`, {
+        params: { transform }
+    });
+    return response.data;
+};
+
 export const fetchSimilarityData = async (currentId?: string) => {
     const url = currentId
         ? `/get-session/?current_id=${currentId}`

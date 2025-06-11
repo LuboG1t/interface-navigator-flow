@@ -1,4 +1,4 @@
-import { getAllSimilarities } from "@/services/similarity.service";
+import { getAllSimilaritiesRaw } from "@/services/similarity.service";
 import * as echarts from "echarts";
 import { useEffect, useRef } from "react"
 
@@ -53,8 +53,8 @@ export const GeneralResult = () => {
 
         const loadChart = async () => {
             try {
-                const response = await getAllSimilarities(1, 30); // puedes ajustar page y limit
-                const rawData = response.data.results;
+                const response = await getAllSimilaritiesRaw(); 
+                const rawData = response.data;
 
                 // Convertimos a formato tabular para ECharts
                 const results: (string | number)[][] = [
