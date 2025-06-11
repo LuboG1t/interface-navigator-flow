@@ -3,183 +3,154 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Award, RefreshCw } from "lucide-react";
 import PaintingData from "@/types/painting";
-import { fetchSimilarityData } from "@/services/similarity.service";
+import { getSimilaritiesById } from "@/services/similarity.service";
 import { getHighestSimilarity, formatSimilarity } from "@/utils/similarity";
 import { Image } from "./Image";
 import { SkeletonCard } from "./SkeletonCard";
-import SummarySection from "./SummarySection";
 
-const SimilarityViewer = () => {
+interface Props {
+  comparisonId: string;
+}
+
+const SimilarityViewer = ({ comparisonId }: Props) => {
   const [currentPairIndex, setCurrentPairIndex] = useState(0);
   const [showTransformations, setShowTransformations] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [data, setData] = useState<PaintingData | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       // Verifica si ya existe data precargada
-  //       const stored = sessionStorage.getItem("initialSimilarityData");
-  //       if (stored) {
-  //         setData(JSON.parse(stored));
-  //         sessionStorage.removeItem("initialSimilarityData"); // para que siguientes pares sí se carguen
-  //       } else {
-  //         const result = await fetchSimilarityData(data?.comparison_id);
-  //         setData(result);
-  //       }
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await getSimilaritiesById(comparisonId);
+      setData(result);
+    };
+    fetchData();
+  }, [comparisonId]);
 
-  //       setShowTransformations(true);
-  //       setTimeout(() => setShowResults(true), 1000);
-  //     } catch (err) {
-  //       console.error("Error al cargar datos:", err);
-  //     }
-  //   };
+  const paintingPairs = useMemo(() => {
+    if (!data || !data.similitud || !data.imagen_1 || !data.imagen_2) return [];
 
-  //   fetchData();
-  // }, []);
+    const transformations = Object.keys(data.similitud).map((key) => ({
+      name: {
+        contrast: "Contraste",
+        texture: "Textura",
+        heat_color_map: "Mapa de Calor",
+        hsv_hue: "Tono",
+        hsv_saturation: "Saturación",
+        hsv_value: "Brillo",
+      }[key] || key,
+      similarity: data.similitud[key].similarity,
+      leftImage: data.imagen_1[key].image_transformed,
+      rightImage: data.imagen_2[key].image_transformed,
+    }));
 
-  // const paintingPairs = useMemo(() => {
-  //   if (!data || !data.similitud || !data.imagen_1 || !data.imagen_2) return [];
+    return [
+      {
+        id: 1,
+        leftPainting: { image: data.imagen_1.original_image },
+        rightPainting: { image: data.imagen_2.original_image },
+        transformations,
+      },
+    ];
+  }, [data]);
 
-  //   const transformations = Object.keys(data.similitud).map((key) => ({
-  //     name: {
-  //       contrast: "Contraste",
-  //       texture: "Textura",
-  //       heat_color_map: "Mapa de Calor",
-  //       hsv_hue: "Tono",
-  //       hsv_saturation: "Saturación",
-  //       hsv_value: "Brillo",
-  //     }[key] || key,
-  //     similarity: data.similitud[key].similarity,
-  //     leftImage: data.imagen_1[key].image_transformed,
-  //     rightImage: data.imagen_2[key].image_transformed,
-  //   }));
-
-  //   return [
-  //     {
-  //       id: 1,
-  //       leftPainting: { image: data.imagen_1.original_image },
-  //       rightPainting: { image: data.imagen_2.original_image },
-  //       transformations,
+  // const paintingPairs = [
+  //   {
+  //     "id": 1,
+  //     "leftPainting": {
+  //       "image": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop"
   //     },
-  //   ];
-  // }, [data]);
-
-  const paintingPairs = [
-    {
-      "id": 1,
-      "leftPainting": {
-        "image": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop"
-      },
-      "rightPainting": {
-        "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=400&fit=crop"
-      },
-      "transformations": [
-        {
-          "name": "Mapa de Calor",
-          "similarity": 0.92,
-          "leftImage": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&hue=30",
-          "rightImage": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=200&h=200&fit=crop&hue=30"
-        },
-        {
-          "name": "Tono",
-          "similarity": 0.87,
-          "leftImage": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&hue=60",
-          "rightImage": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=200&h=200&fit=crop&hue=60"
-        },
-        {
-          "name": "Saturación",
-          "similarity": 0.95,
-          "leftImage": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&saturation=1.3",
-          "rightImage": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=200&h=200&fit=crop&saturation=1.3"
-        },
-        {
-          "name": "Brillo",
-          "similarity": 0.78,
-          "leftImage": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&brightness=1.3",
-          "rightImage": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=200&h=200&fit=crop&brightness=1.3"
-        },
-        {
-          "name": "Contraste",
-          "similarity": 0.89,
-          "leftImage": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&contrast=1.4",
-          "rightImage": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=200&h=200&fit=crop&contrast=1.4"
-        },
-        {
-          "name": "Textura",
-          "similarity": 0.83,
-          "leftImage": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&blur=1",
-          "rightImage": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=200&h=200&fit=crop&blur=1"
-        }
-      ]
-    },
-    {
-      "id": 2,
-      "leftPainting": {
-        "image": "https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=400&h=400&fit=crop"
-      },
-      "rightPainting": {
-        "image": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop&hue=180"
-      },
-      "transformations": [
-        {
-          "name": "Mapa de Calor",
-          "similarity": 0.88,
-          "leftImage": "https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=200&h=200&fit=crop&hue=30",
-          "rightImage": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&hue=180&hue=30"
-        },
-        {
-          "name": "Tono",
-          "similarity": 0.94,
-          "leftImage": "https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=200&h=200&fit=crop&hue=60",
-          "rightImage": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&hue=180&hue=60"
-        },
-        {
-          "name": "Saturación",
-          "similarity": 0.86,
-          "leftImage": "https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=200&h=200&fit=crop&saturation=1.3",
-          "rightImage": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&hue=180&saturation=1.3"
-        },
-        {
-          "name": "Brillo",
-          "similarity": 0.79,
-          "leftImage": "https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=200&h=200&fit=crop&brightness=1.3",
-          "rightImage": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&hue=180&brightness=1.3"
-        },
-        {
-          "name": "Contraste",
-          "similarity": 0.91,
-          "leftImage": "https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=200&h=200&fit=crop&contrast=1.4",
-          "rightImage": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&hue=180&contrast=1.4"
-        },
-        {
-          "name": "Textura",
-          "similarity": 0.97,
-          "leftImage": "https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=200&h=200&fit=crop&blur=1",
-          "rightImage": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&hue=180&blur=1"
-        }
-      ]
-    }
-  ]
+  //     "rightPainting": {
+  //       "image": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=400&fit=crop"
+  //     },
+  //     "transformations": [
+  //       {
+  //         "name": "Mapa de Calor",
+  //         "similarity": 0.92,
+  //         "leftImage": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&hue=30",
+  //         "rightImage": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=200&h=200&fit=crop&hue=30"
+  //       },
+  //       {
+  //         "name": "Tono",
+  //         "similarity": 0.87,
+  //         "leftImage": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&hue=60",
+  //         "rightImage": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=200&h=200&fit=crop&hue=60"
+  //       },
+  //       {
+  //         "name": "Saturación",
+  //         "similarity": 0.95,
+  //         "leftImage": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&saturation=1.3",
+  //         "rightImage": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=200&h=200&fit=crop&saturation=1.3"
+  //       },
+  //       {
+  //         "name": "Brillo",
+  //         "similarity": 0.78,
+  //         "leftImage": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&brightness=1.3",
+  //         "rightImage": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=200&h=200&fit=crop&brightness=1.3"
+  //       },
+  //       {
+  //         "name": "Contraste",
+  //         "similarity": 0.89,
+  //         "leftImage": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&contrast=1.4",
+  //         "rightImage": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=200&h=200&fit=crop&contrast=1.4"
+  //       },
+  //       {
+  //         "name": "Textura",
+  //         "similarity": 0.83,
+  //         "leftImage": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&blur=1",
+  //         "rightImage": "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=200&h=200&fit=crop&blur=1"
+  //       }
+  //     ]
+  //   },
+  //   {
+  //     "id": 2,
+  //     "leftPainting": {
+  //       "image": "https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=400&h=400&fit=crop"
+  //     },
+  //     "rightPainting": {
+  //       "image": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop&hue=180"
+  //     },
+  //     "transformations": [
+  //       {
+  //         "name": "Mapa de Calor",
+  //         "similarity": 0.88,
+  //         "leftImage": "https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=200&h=200&fit=crop&hue=30",
+  //         "rightImage": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&hue=180&hue=30"
+  //       },
+  //       {
+  //         "name": "Tono",
+  //         "similarity": 0.94,
+  //         "leftImage": "https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=200&h=200&fit=crop&hue=60",
+  //         "rightImage": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&hue=180&hue=60"
+  //       },
+  //       {
+  //         "name": "Saturación",
+  //         "similarity": 0.86,
+  //         "leftImage": "https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=200&h=200&fit=crop&saturation=1.3",
+  //         "rightImage": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&hue=180&saturation=1.3"
+  //       },
+  //       {
+  //         "name": "Brillo",
+  //         "similarity": 0.79,
+  //         "leftImage": "https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=200&h=200&fit=crop&brightness=1.3",
+  //         "rightImage": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&hue=180&brightness=1.3"
+  //       },
+  //       {
+  //         "name": "Contraste",
+  //         "similarity": 0.91,
+  //         "leftImage": "https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=200&h=200&fit=crop&contrast=1.4",
+  //         "rightImage": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&hue=180&contrast=1.4"
+  //       },
+  //       {
+  //         "name": "Textura",
+  //         "similarity": 0.97,
+  //         "leftImage": "https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=200&h=200&fit=crop&blur=1",
+  //         "rightImage": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&hue=180&blur=1"
+  //       }
+  //     ]
+  //   }
+  // ]
 
   const currentPair = paintingPairs.length > 0 ? paintingPairs[currentPairIndex] : null;
-
-  // const handleNextPair = async () => {
-  //   setIsLoading(true);
-  //   try {
-  //     const result = await fetchSimilarityData(data?.comparison_id);
-  //     setData(result);
-  //     setShowTransformations(false);
-  //     setShowResults(false);
-  //     setTimeout(() => setShowTransformations(true), 300);
-  //     setTimeout(() => setShowResults(true), 1000);
-  //   } catch (error) {
-  //     console.error("Error al obtener comparación aleatoria", error);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
 
   if (!currentPair) return null
 
@@ -188,26 +159,12 @@ const SimilarityViewer = () => {
 
       {/* Main Images */}
       <div className={`grid md:grid-cols-2 gap-12 mb-12 transition-all duration-1000 ${showTransformations ? 'opacity-100' : 'opacity-0'}`}>
-        {isLoading ? (
-          <>
-            <SkeletonCard />
-            <SkeletonCard />
-          </>
-        ) : (
-          <>
-            <Image image={currentPair.leftPainting.image} />
-            <Image image={currentPair.rightPainting.image} />
-          </>
-        )}
+        <Image image={currentPair.leftPainting.image} />
+        <Image image={currentPair.rightPainting.image} />
       </div>
 
       {/* Transformations Grid */}
-      <div
-        className={`
-          overflow-hidden transition-all duration-700 ease-in-out mb-12
-          ${isLoading ? 'opacity-0 max-h-0 pointer-events-none' : 'opacity-100 max-h-[1000px]'}
-        `}
-      >
+      <div className="overflow-hidden transition-all duration-700 ease-in-out mb-12opacity-100 max-h-[1000px]">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
           {currentPair.transformations.map((transformation, index) => {
             const isHighest = transformation.similarity === getHighestSimilarity(currentPair.transformations);
@@ -240,15 +197,6 @@ const SimilarityViewer = () => {
           })}
         </div>
       </div>
-
-      {
-        showResults && (
-          <SummarySection
-            transformations={currentPair.transformations}
-            isLoading={isLoading}
-          />
-        )
-      }
     </div >
   );
 };

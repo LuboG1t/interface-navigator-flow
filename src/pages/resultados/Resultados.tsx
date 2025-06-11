@@ -11,7 +11,6 @@ export const Resultados = () => {
             <GeneralResult />
             <TransformResults />
             <TableResults />
-            <SimilarityViewer />
         </div>
     );
 };

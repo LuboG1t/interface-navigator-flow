@@ -1,17 +1,21 @@
 import { getAllSimilarities } from "@/services/similarity.service";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
+import SimilarityViewer from "./par/SimilarityViewer";
+import * as Dialog from "@radix-ui/react-dialog";
 
 export const TableResults = () => {
     const [selectedRow, setSelectedRow] = useState<number | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(0);
     const [transformations, setTransformations] = useState([])
     const [totalItems, setTotalItems] = useState<number>(0)
+    const [selectedComparisonId, setSelectedComparisonId] = useState<string | null>(null);
+    const [modalOpen, setModalOpen] = useState(false);
 
     const itemsPerPage = 10;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-    const handleRowClick = (rowPair: number) => {
+    const handleRowClick = (comparison_id: string, rowPair: number) => {
         setSelectedRow(selectedRow === rowPair ? null : rowPair);
         // Scroll to comparison visualization
         if (selectedRow !== rowPair) {
@@ -22,6 +26,8 @@ export const TableResults = () => {
                 }
             }, 100);
         }
+        setSelectedComparisonId(comparison_id);
+        setModalOpen(true);
     };
 
     useEffect(() => {
@@ -41,7 +47,7 @@ export const TableResults = () => {
                 }));
 
                 setTransformations(transformedData);
-                setTotalItems(data.count); // 🆕 si defines totalItems y lo usas en totalPages
+                setTotalItems(data.count);
             } catch (err) {
                 console.error("Error al cargar datos:", err);
             }
@@ -53,7 +59,7 @@ export const TableResults = () => {
 
     return (
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-24 scroll-view">
+        <div className="min-h-screen px-4 sm:px-6 lg:px-8 pt-12 pb-24 scroll-view">
             <div className="text-center space-y-6 max-w-6xl mx-auto">
                 <div className="flex justify-center items-center space-x-4">
                     <h2 className="text-xl font-bold">Matriz de Resultados por Par similar</h2>
@@ -100,7 +106,7 @@ export const TableResults = () => {
                                     key={row.pair}
                                     className={`hover:bg-gray-50 cursor-pointer ${selectedRow === row.pair ? 'bg-blue-50' : ''
                                         }`}
-                                    onClick={() => handleRowClick(row.pair)}
+                                    onClick={() => handleRowClick(row.comparison_id, row.pair)}
                                 >
                                     <td className="border border-gray-200 px-4 py-2">{row.pair}</td>
                                     <td className="border border-gray-200 px-4 py-2">{row.tmcc}</td>
@@ -115,6 +121,18 @@ export const TableResults = () => {
                     </table>
                 </div>
             </div>
+
+            <Dialog.Root open={modalOpen} onOpenChange={setModalOpen}>
+                <Dialog.Portal>
+                    <Dialog.Overlay className="fixed inset-0 bg-black/50 z-40" />
+                    <Dialog.Content
+                        className="fixed z-50 top-1/2 left-1/2 max-w-5xl w-full h-[80vh] overflow-y-auto bg-white rounded-xl shadow-lg transform -translate-x-1/2 -translate-y-1/2"
+                    >
+                        {selectedComparisonId && <SimilarityViewer comparisonId={selectedComparisonId} />}
+                    </Dialog.Content>
+                </Dialog.Portal>
+            </Dialog.Root>
+
         </div>
     )
 };
